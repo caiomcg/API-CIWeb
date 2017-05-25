@@ -7,5 +7,6 @@ var route   = express.Router();
 var problemController = require("../controllers/problemcontroller");
 
 route.get("/", problemController.index);
+route.get("/:name", problemController.find);
 
 module.exports = route;
