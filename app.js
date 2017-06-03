@@ -7,18 +7,12 @@ const logger   = require("morgan");
 
 const app = express();
 
-const firebase = require("firebase");
-
-firebase.initializeApp({
-    serviceAccount: "./credentials/credential.json",
-    databaseURL: "https://NAME.firebaseio.com"
-});
-
 app.use(logger("dev"));
 app.use(parser.json());
 
 app.use("/", index);
 app.use("/problems", problems);
+
 
 const PORT = process.env.PORT || 8080; //Ready for Heroku integration
 

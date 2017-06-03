@@ -1,23 +1,22 @@
 {
-  "name": "problembase",
+  "name": "API-ReportCT",
   "version": "1.0.0",
-  "description": "Firebase bridge for UFPB - CI website",
+  "description": "UFPB CI Reports and calendar API",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
   },
   "keywords": [
-    "firebase"
+    "MySQL"
   ],
   "author": "Caio Marcelo Campoy Guedes",
-  "license": "ISC",
+  "license": "MiT",
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
-    "firebase": "^4.0.0",
     "morgan": "^1.8.2",
-    "request": "^2.81.0",
-    "underscore": "^1.8.3"
+    "mysql": "^2.13.0",
+    "request": "^2.81.0"
   }
 }
