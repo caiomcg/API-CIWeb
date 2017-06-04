@@ -4,7 +4,7 @@
 var express = require("express");
 var route   = express.Router();
 
-var problemController = require("../controllers/problemcontroller");
+var problemController = require("../controllers/reportcontroller");
 
 route.get("/", problemController.index);
 route.post("/", problemController.add);
