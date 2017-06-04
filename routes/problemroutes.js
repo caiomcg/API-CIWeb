@@ -8,5 +8,6 @@ var problemController = require("../controllers/problemcontroller");
 
 route.get("/", problemController.index);
 route.get("/:id", problemController.find);
+route.put("/", problemController.add);
 
 module.exports = route;

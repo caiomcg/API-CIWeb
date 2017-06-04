@@ -17,6 +17,8 @@
     "express": "^4.15.3",
     "morgan": "^1.8.2",
     "mysql": "^2.13.0",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "sequelize": "^3.30.4",
+    "underscore": "^1.8.3"
   }
 }

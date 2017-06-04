@@ -2,48 +2,44 @@
  * Created by caiomcg on 24/05/2017.
  */
 
-var mysqlhandler = require("../database/mysqlhandler");
+var db = require("../db");
+var _  = require("underscore");
 
 exports.index = function (req, res, next) {
-    mysqlhandler.connect(function (err, connection) {
-        if (err) {
-            console.log("Failed to connect");
-            return res.status(500);
+    db.report.findAll().then(function (reports) {
+        if (!!reports) {
+            res.json(reports);
+        } else {
+            res.status(404).send();
         }
-
-        connection.query("SELECT * FROM report",function(err,rows){
-            connection.release();
-            if(!err) {
-                return res.json(rows);
-            }
-            return res.status(500);
-        });
+    }, function (err) {
+        res.status(500).send();
+    }).catch(function (err) {
+        res.status(500).send();
     });
 };
 
 exports.find = function(req, res, next) {
-    mysqlhandler.connect(function (err, connection) {
-        if (err) {
-            console.log("Failed to connect");
-            return res.status(500);
+    db.report.findById(req.params.id).then(function (report) {
+        if (!!report) {
+            console.log("here3");
+            res.json(report.toJSON());
+        } else {
+            res.status(404).send();
         }
-
-        connection.query("SELECT * FROM report WHERE id = " + req.params.id,function(err,rows){
-            connection.release();
-            if (!err) {
-                if (!rows.length) {
-                    return res.status(404).json({error: "Found none with id: " + req.params.id});
-                }
-                return res.json(rows);
-            }
-            return res.status(404).json({error: "Found none with id: " + req.params.id});
-        });
+    }, function (err) {
+        res.status(500).send();
+    }).catch(function (err) {
+        res.status(500).send();
     });
 };
 
 exports.add = function (req, res, next) {
-    return res.json({
-        teste: 3
-    });
+    const body = _.pick(req.body, "name", "email", "title", "message", "state");
 
+    db.report.create(body).then(function (report) {
+       res.json(report.toJSON());
+    }, function (err) {
+        res.status(500).send();
+    });
 };
