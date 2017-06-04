@@ -1,6 +1,7 @@
 # API-CIWeb
 
-A node.js express API for the Federal University of Paraíba Informatics Center
+### A node.js express API for the Federal University of Paraíba Informatics Center
+
 ---
 
 ### Requirements ###
@@ -10,7 +11,7 @@ A node.js express API for the Federal University of Paraíba Informatics Center
 
 ### Installation ###
 
-**Obs.: The following instructions were tested on Ubuntu distribution.**
+**Obs.: The following instructions were tested on Ubuntu 16.04.2 LTS**
 
 1. After 'git clone' command, run the following commands to install dependencies:
   - user@user:~/path_to_cloned_folder$ **npm install**
@@ -21,13 +22,14 @@ A node.js express API for the Federal University of Paraíba Informatics Center
 
 ## API Routes ##
 
-### Auth ###
+### Reports ###
 |   Action                                 | Required          | Method    | URL
 | -----------------------------------------|-------------------|-----------|-----------------------------------------------------
-|   Sign in user (local authentication)    |                   |  `POST`   | /api/auth/login
-|   Register or Sign in (facebook oauth)   |                   |  `GET`    | /api/auth/facebook?access_token=:token
-|   Get Reset Password                     |                   |  `POST`   | /api/auth/reset_password
-|   Set new password after reset password  | Get Reset Pass    |  `POST`   | /api/auth/reset_password/:token
+|   List all reports                       |                   |  `GET`   | /api/reports
+|   Search for a report with a specific ID |                   |  `GET`    | /api/reports/:id
+|   Create a new report                    |                   |  `POST`   | /api/reports
+|   Update the report with ID              |                   |  `PUT`   | /api/reports/:id
+|   Remove report with ID                  |                   |  `DELETE`   | /api/reports/:id
 
 ---
 
