@@ -27,10 +27,10 @@ exports.add = function (req, res, next) {
         if (!!report) {
             res.json(report.toJSON());
         } else {
-            return error.internalError("Could not create the report", next);
+            return error.badRequest("Could not create the report", next);
         }
     }, function (err) {
-        return error.internalError("An error occurred while fetching from the database", next);
+        return error.badRequest("Could not create the report", next);
     });
 };
 
@@ -52,7 +52,11 @@ exports.update = function (req, res, next) {
     db.report.find({where: {id: req.params.id}}).then(function (report) {
         if (!!report) {
             report.updateAttributes(body).then(function () {
-                res.json(body);
+                if (!Object.keys(body).length) {
+                    return error.badRequest("Could not update with the desired information", next);
+                } else {
+                    res.json(body);
+                }
             }).catch(function (err) {
                 return error.notFound("Could not update report with ID " + req.params.id, next);
             })
@@ -67,7 +71,7 @@ exports.remove = function (req, res, next) {
         if (rows === 0) {
             return error.notFound("Could not destroy report with ID " + req.params.id, next);
         } else {
-            res.sendStatus(204);
+            res.sendStatus(200);
         }
     }, function (err) {
         return error.internalError("An error occurred while fetching from the database", next);
