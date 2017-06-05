@@ -8,3 +8,11 @@ services:
 
 before_script:
   - npm install
+  - mysql -u root -e 'CREATE DATABASE testapp;'
+  - export MYSQL_PASS = ""
+  - export MYSQL_USER = "root"
+  - export MYSQL_HOST = "localhost"
+  - export MYSQL_DB = "testapp"
+
+script:
+  - npm test
