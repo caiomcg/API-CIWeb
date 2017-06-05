@@ -2,6 +2,8 @@
 
 ### A node.js express API for the Federal University of Paraíba Informatics Center
 
+[![Build Status](https://travis-ci.org/caiomcg/API-CIWeb.svg?branch=master)](https://travis-ci.org/caiomcg/API-CIWeb)
+
 ---
 
 ### Requirements ###
