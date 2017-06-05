@@ -4,11 +4,18 @@
 const server = require("../server");
 const chai   = require("chai");
 const supertest = require("supertest");
+const db        = require("../db");
 
 const request = supertest(server);
 
 var correctUserID = 0;
 var badUserID = 0;
+
+db.sequelize.sync().then(function () {
+    console.log("Tables synced");
+}).catch(function (err) {
+    console.error('Unable to connect to the database:', err);
+});
 
 describe("Reports API", function () {
     describe("POST /api/reports", function() {
@@ -114,5 +121,3 @@ describe("Reports API", function () {
         });
     });
 });
-
-
