@@ -19,7 +19,7 @@ app.use("/api/reports", problems);
  */
 app.use(function(err, req, res, next) {
     if (app.get('env') !== 'development')
-        delete err.stack
+        delete err.stack;
     res.status(err.status).json({
         'error': {
             'message': err.message,
