@@ -1,5 +1,9 @@
 # API-CIWeb
 
+[![Build Status](https://travis-ci.org/caiomcg/API-CIWeb.svg?branch=master)](https://travis-ci.org/caiomcg/API-CIWeb)
+[![Code Climate](https://codeclimate.com/github/caiomcg/API-CIWeb/badges/gpa.svg)](https://codeclimate.com/github/caiomcg/API-CIWeb)
+[![Issue Count](https://codeclimate.com/github/caiomcg/API-CIWeb/badges/issue_count.svg)](https://codeclimate.com/github/caiomcg/API-CIWeb)
+
 ### A node.js express API for the Federal University of Paraíba Informatics Center
 
 ---
