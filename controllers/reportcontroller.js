@@ -2,18 +2,21 @@
  * Created by caiomcg on 24/05/2017.
  */
 
-var db = require("../db");
-var _  = require("underscore");
+'use strict';
+
+const db = require("../db");
+const _  = require("underscore");
+const error = require("./errorcontroller");
 
 exports.index = function (req, res, next) {
-    db.report.findAll().then(function (reports) {
-        if (!!reports) {
+    db.report.findAll().then(function (reports) { //Querys
+        if (!!reports && reports.length > 0) {
             res.json(reports);
         } else {
-            res.status(404).send();
+            return error.notFound("Could not find reports", next);
         }
     }, function (err) {
-        res.status(500).send();
+        return error.internalError("An error occurred while fetching from the database", next);
     });
 };
 
@@ -21,9 +24,13 @@ exports.add = function (req, res, next) {
     const body = _.pick(req.body, "name", "email", "title", "message", "state");
 
     db.report.create(body).then(function (report) {
-        res.json(report.toJSON());
+        if (!!report) {
+            res.json(report.toJSON());
+        } else {
+            return error.internalError("Could not create the report", next);
+        }
     }, function (err) {
-        res.status(500).send();
+        return error.internalError("An error occurred while fetching from the database", next);
     });
 };
 
@@ -32,10 +39,10 @@ exports.find = function(req, res, next) {
         if (!!report) {
             res.json(report.toJSON());
         } else {
-            res.status(404).send();
+            return error.notFound("Could not find report with ID " + req.params.id, next);
         }
     }, function (err) {
-        res.status(500).send();
+        return error.internalError("An error occurred while fetching from the database", next);
     });
 };
 
@@ -47,21 +54,22 @@ exports.update = function (req, res, next) {
             report.updateAttributes(body).then(function () {
                 res.json(body);
             }).catch(function (err) {
-                console.log(err);
-                res.status(404).send();
+                return error.notFound("Could not update report with ID " + req.params.id, next);
             })
         }
+    }, function (err) {
+        return error.internalError("An error occurred while fetching from the database", next);
     });
 };
 
 exports.remove = function (req, res, next) {
     db.report.destroy({where: {id: req.params.id}}).then(function (rows) {
         if (rows === 0) {
-            res.sendStatus(404).json({error: "ID not found"});
+            return error.notFound("Could not destroy report with ID " + req.params.id, next);
         } else {
             res.sendStatus(204);
         }
     }, function (err) {
-        res.status(500).send();
+        return error.internalError("An error occurred while fetching from the database", next);
     });
 };

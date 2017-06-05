@@ -14,6 +14,22 @@ app.use(cors());
 
 app.use("/api/reports", problems);
 
+/**
+ * Error handler.
+ */
+app.use(function(err, req, res, next) {
+    if (app.get('env') !== 'development')
+        delete err.stack
+    res.status(err.status).json({
+        'error': {
+            'message': err.message,
+            'status': err.status,
+            'stack': err.stack
+        }
+    });
+});
+
+
 //Add problems with query
 db.sequelize.sync().then(function () {
     app.listen(PORT, function () {
