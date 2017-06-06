@@ -5,17 +5,19 @@ const express  = require("express");
 const parser   = require("body-parser");
 const logger   = require("morgan");
 const cors     = require("cors");
-const problems = require("./routes/reportroutes");
+const reports = require("./routes/reportroutes");
+const rooms    = require("./routes/roomroutes");
 
 const app = express();
 
-if (process.env.NODE_ENV == "dev") {
+if (process.env.NODE_ENV === "dev") {
     app.use(logger("dev"));
 }
 app.use(parser.json());
 app.use(cors());
 
-app.use("/api/reports", problems);
+app.use("/api/reports", reports);
+app.use("/api/rooms", rooms);
 
 /**
  * Error handler.

@@ -12,6 +12,7 @@ var sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, proc
 
 module.exports = db = {
     report: sequelize.import(__dirname + "/models/report.js"),
+    room: sequelize.import(__dirname + "/models/room.js"),
     sequelize: sequelize,
     Sequelize: Sequelize
 };
