@@ -52,7 +52,7 @@ exports.find = function(req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-    const body = _.pick(req.body, "id", "projector", "seats", "board", "conditioner");
+    const body = _.pick(req.body, "projector", "seats", "board", "conditioner");
 
     db.room.find({where: {id: req.params.id}}).then(function (room) {
         if (!!room) {
