@@ -10,9 +10,20 @@ var sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USER, proc
     logging: false
 });
 
+const report = sequelize.import(__dirname + "/models/report.js");
+const room = sequelize.import(__dirname + "/models/room.js");
+const reserve = sequelize.import(__dirname + "/models/reserve.js");
+
+reserve.belongsTo(room, {
+    foreignKey: "room_id"
+});
+
+room.hasMany(reserve);
+
 module.exports = db = {
-    report: sequelize.import(__dirname + "/models/report.js"),
-    room: sequelize.import(__dirname + "/models/room.js"),
+    report: report,
+    room: room,
+    reserve: reserve,
     sequelize: sequelize,
     Sequelize: Sequelize
 };

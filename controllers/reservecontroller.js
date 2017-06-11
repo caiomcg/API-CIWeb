@@ -1,5 +1,5 @@
 /**
- * Created by caiomcg on 06/06/17.
+ * Created by caiomcg on 11/06/17.
  */
 
 'use strict';
@@ -9,11 +9,11 @@ const _  = require("underscore");
 const error = require("./errorcontroller");
 
 exports.index = function (req, res, next) {
-    db.room.findAll().then(function (rooms) {
-        if (!!rooms && rooms.length > 0) {
-            res.json(rooms);
+    db.reserve.findAll().then(function (reserves) { //Querys
+        if (!!reserves && reserves.length > 0) {
+            res.json(reserves);
         } else {
-            return error("Could not find rooms", 404, next);
+            return error("Could not find reports", 404, next);
         }
     }, function (err) {
         return error("An error occurred while fetching from the database", 500, next);
@@ -21,30 +21,26 @@ exports.index = function (req, res, next) {
 };
 
 exports.add = function (req, res, next) {
-    console.log("add");
-
-    const body = _.pick(req.body, "id", "projector", "seats", "board", "conditioner");
-
-    db.room.create(body).then(function (room) {
+    const body = _.pick(req.body, "start", "finish", "user", "room_id");
+    console.log(body);
+    db.reserve.create(body).then(function (room) {
         if (!!room) {
             res.json(room.toJSON());
         } else {
-            return error("Could not create the room", 400, next);
+            return error("Could not create the report", 400, next);
         }
     }, function () {
-        return error("Could not create the room", 400, next);
+        return error("Could not create the report", 400, next);
     });
 };
 
 
 exports.find = function(req, res, next) {
-    db.room.findById(req.params.id, {
-        include: db.reserve
-    }).then(function (room) {
+    db.reserve.findById(req.params.id).then(function (room) {
         if (!!room) {
             res.json(room.toJSON());
         } else {
-            return error("Could not find room with ID " + req.params.id, 404, next);
+            return error("Could not find reserve with ID " + req.params.id, 404, next);
         }
     }, function (err) {
         return error("An error occurred while fetching from the database", 500, next);
@@ -52,9 +48,9 @@ exports.find = function(req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-    const body = _.pick(req.body, "id", "projector", "seats", "board", "conditioner");
+    const body = _.pick(req.body, "start", "finish", "user", "room_id");
 
-    db.room.find({where: {id: req.params.id}}).then(function (room) {
+    db.reserve.find({where: {id: req.params.id}}).then(function (room) {
         if (!!room) {
             room.updateAttributes(body).then(function () {
                 if (!Object.keys(body).length) {
@@ -63,7 +59,7 @@ exports.update = function (req, res, next) {
                     res.json(body);
                 }
             }).catch(function (err) {
-                return error("Could not update room with ID " + req.params.id, 404, next);
+                return error("Could not update reserve with ID " + req.params.id, 404, next);
             })
         }
     }, function (err) {
@@ -72,11 +68,11 @@ exports.update = function (req, res, next) {
 };
 
 exports.remove = function (req, res, next) {
-    db.room.destroy({where: {id: req.params.id}}).then(function (rows) {
+    db.reserve.destroy({where: {id: req.params.id}}).then(function (rows) {
         if (rows === 0) {
-            return error("Could not destroy room with ID " + req.params.id, 404, next);
+            return error("Could not destroy reserve with ID " + req.params.id, 404, next);
         } else {
-            res.sendStatus(200);
+            return res.status(200).json({delete: "ok"});
         }
     }, function (err) {
         return error("An error occurred while fetching from the database", 500, next);

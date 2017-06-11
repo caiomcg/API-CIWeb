@@ -1,10 +1,10 @@
 /**
- * Created by caiomcg on 06/06/17.
+ * Created by caiomcg on 11/06/17.
  */
 var express = require("express");
 var route   = express.Router();
 
-var roomController = require("../controllers/roomcontroller");
+var roomController = require("../controllers/reservecontroller");
 
 route.get("/", roomController.index);
 route.post("/", roomController.add);
