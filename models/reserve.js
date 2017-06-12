@@ -18,6 +18,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false
         },
+        always: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
         user: {
             type: DataTypes.STRING,
             allowNull: false

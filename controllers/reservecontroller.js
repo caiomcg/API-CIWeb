@@ -9,7 +9,13 @@ const _  = require("underscore");
 const error = require("./errorcontroller");
 
 exports.index = function (req, res, next) {
-    db.reserve.findAll().then(function (reserves) { //Querys
+    const where = {};
+
+    if (req.query.room !== undefined) {
+        where.where = {room_id: req.query.room};
+    }
+
+    db.reserve.findAll(where).then(function (reserves) { //Querys
         if (!!reserves && reserves.length > 0) {
             res.json(reserves);
         } else {
@@ -21,15 +27,15 @@ exports.index = function (req, res, next) {
 };
 
 exports.add = function (req, res, next) {
-    const body = _.pick(req.body, "start", "finish", "user", "room_id");
+    const body = _.pick(req.body, "start", "finish", "user", "room_id", "always");
     db.reserve.create(body).then(function (room) {
         if (!!room) {
             res.json(room.toJSON());
         } else {
-            return error("Could not create the report", 400, next);
+            return error("Could not create the reserve", 400, next);
         }
     }, function () {
-        return error("Could not create the report", 400, next);
+        return error("Could not create the reserve", 400, next);
     });
 };
 
@@ -47,7 +53,7 @@ exports.find = function(req, res, next) {
 };
 
 exports.update = function (req, res, next) {
-    const body = _.pick(req.body, "start", "finish", "user", "room_id");
+    const body = _.pick(req.body, "start", "finish", "user", "room_id", "always");
 
     db.reserve.find({where: {id: req.params.id}}).then(function (room) {
         if (!!room) {
