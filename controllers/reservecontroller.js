@@ -22,7 +22,6 @@ exports.index = function (req, res, next) {
 
 exports.add = function (req, res, next) {
     const body = _.pick(req.body, "start", "finish", "user", "room_id");
-    console.log(body);
     db.reserve.create(body).then(function (room) {
         if (!!room) {
             res.json(room.toJSON());

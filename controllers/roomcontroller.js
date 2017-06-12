@@ -21,8 +21,6 @@ exports.index = function (req, res, next) {
 };
 
 exports.add = function (req, res, next) {
-    console.log("add");
-
     const body = _.pick(req.body, "id", "projector", "seats", "board", "conditioner");
 
     db.room.create(body).then(function (room) {
