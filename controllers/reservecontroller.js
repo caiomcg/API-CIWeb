@@ -13,7 +13,7 @@ exports.index = function (req, res, next) {
         if (!!reserves && reserves.length > 0) {
             res.json(reserves);
         } else {
-            return error("Could not find reports", 404, next);
+            return error("Could not find reserves", 404, next);
         }
     }, function (err) {
         return error("An error occurred while fetching from the database", 500, next);
