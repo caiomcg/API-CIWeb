@@ -71,7 +71,7 @@ exports.remove = function (req, res, next) {
         if (rows === 0) {
             return error("Could not destroy report with ID " + req.params.id, 404, next);
         } else {
-            res.sendStatus(200);
+            return res.status(200).json({delete: "ok"});
         }
     }, function (err) {
         return error("An error occurred while fetching from the database", 500, next);
