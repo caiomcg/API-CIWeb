@@ -89,9 +89,7 @@ exports.update = function (req, res, next) {
                         const newStart = new Date(body.start);
                         const newFinish = new Date(body.finish);
 
-                        console.log(reserves[i].id + " !== " + room.id);
                         if (reserves[i].id !== room.id) {
-                            console.log("Body");
                             if (start.getTime() === newStart.getTime() || finish.getTime() === newFinish.getTime() || finish.getTime() === newStart.getTime() || start.getTime() === newFinish.getTime()) {
                                 return error("Another event starts or finishes at the same time", 400, next);
                             }
