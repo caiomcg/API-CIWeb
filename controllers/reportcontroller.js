@@ -16,7 +16,7 @@ exports.index = function (req, res, next) {
             return error("Could not find reports", 404, next);
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
 
@@ -30,7 +30,7 @@ exports.add = function (req, res, next) {
             return error("Could not create the report", 400, next);
         }
     }, function (err) {
-        return error("Could not create the report", 400, next);
+        return error("Could not create the report: " + err, 400, next);
     });
 };
 
@@ -42,7 +42,7 @@ exports.find = function(req, res, next) {
             return error("Could not find report with ID " + req.params.id, 404, next);
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
 
@@ -62,7 +62,7 @@ exports.update = function (req, res, next) {
             })
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
 
@@ -74,6 +74,6 @@ exports.remove = function (req, res, next) {
             return res.status(200).json({delete: "ok"});
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
