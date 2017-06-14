@@ -81,6 +81,7 @@ exports.update = function (req, res, next) {
         if (!!room) {
             db.reserve.findAll({where: {room_id: room.room_id}}).then((reserves) => {
                 if (!!reserves) {
+                    console.log(reserves.length);
                     for (var i = 0; i < reserves.length; i++) {
                         const start = new Date(reserves[i].start);
                         const finish = new Date(reserves[i].finish);
@@ -88,11 +89,15 @@ exports.update = function (req, res, next) {
                         const newStart = new Date(body.start);
                         const newFinish = new Date(body.finish);
 
-                        if (start.getTime() === newStart.getTime() || finish.getTime() === newFinish.getTime() || finish.getTime() === newStart.getTime() || start.getTime() === newFinish.getTime()) {
-                            return error("Another event starts or finishes at the same time", 400, next);
-                        }
-                        if ((newStart > start && newStart < finish) || (newFinish > start && newFinish < finish)) {
-                            return error("Cannot create a reserve between another", 400, next);
+                        console.log(reserves[i].id + " !== " + room.id);
+                        if (reserves[i].id !== room.id) {
+                            console.log("Body");
+                            if (start.getTime() === newStart.getTime() || finish.getTime() === newFinish.getTime() || finish.getTime() === newStart.getTime() || start.getTime() === newFinish.getTime()) {
+                                return error("Another event starts or finishes at the same time", 400, next);
+                            }
+                            if ((newStart > start && newStart < finish) || (newFinish > start && newFinish < finish)) {
+                                return error("Cannot create a reserve between another", 400, next);
+                            }
                         }
                     }
 
