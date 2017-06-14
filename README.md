@@ -27,13 +27,31 @@
 ## API Routes ##
 
 ### Reports ###
-|   Action                                 | Required          | Method    | URL
-| -----------------------------------------|-------------------|-----------|-----------------------------------------------------
-|   List all reports                       |                   |  `GET`   | /api/reports
-|   Search for a report with a specific ID |                   |  `GET`    | /api/reports/:id
-|   Create a new report                    |                   |  `POST`   | /api/reports
-|   Update the report with ID              |                   |  `PUT`   | /api/reports/:id
-|   Remove report with ID                  |                   |  `DELETE`   | /api/reports/:id
+|   Action                                  | Required          | Method    | URL
+| ------------------------------------------|-------------------|-----------|-----------------------------------------------------
+|   List all reports                        |                   |  `GET`   | /api/reports
+|   Search for a report with a specific ID  |                   |  `GET`    | /api/reports/:id
+|   Create a new report                     |                   |  `POST`   | /api/reports
+|   Update the report with ID               |                   |  `PUT`   | /api/reports/:id
+|   Remove report with ID                   |                   |  `DELETE`   | /api/reports/:id
+
+### Reserves ###
+|   Action                                  | Required          | Method    | URL
+| ------------------------------------------|-------------------|-----------|-----------------------------------------------------
+|   List all reserves(can filter by room ID)|                   |  `GET`    | /api/reserves?room=ROOM_ID
+|   Search for a reserve with a specific ID |                   |  `GET`    | /api/reserves/:id
+|   Create a new reserve                    |                   |  `POST`   | /api/reserves
+|   Update the reserve with ID              |                   |  `PUT`    | /api/reserves/:id
+|   Remove reserve with ID                  |                   |  `DELETE` | /api/reserves/:id
+
+### Rooms ###
+|   Action                                  | Required          | Method    | URL
+| ------------------------------------------|-------------------|-----------|-----------------------------------------------------
+|   List all rooms                          |                   |  `GET`   | /api/rooms
+|   Search for a room with a specific ID    |                   |  `GET`    | /api/rooms/:id
+|   Create a new room                       |                   |  `POST`   | /api/rooms
+|   Update the room with ID                 |                   |  `PUT`   | /api/rooms/:id
+|   Remove room with ID                     |                   |  `DELETE`   | /api/rooms/:id
 
 ---
 
