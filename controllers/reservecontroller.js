@@ -16,13 +16,13 @@ exports.index = function (req, res, next) {
     }
 
     db.reserve.findAll(where).then(function (reserves) { //Querys
-        if (!!reserves && reserves.length > 0) {
+        if (reserves && reserves.length > 0) {
             res.json(reserves);
         } else {
             return error("Could not find reserves", 404, next);
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database " + err, 500, next);
     });
 };
 
@@ -30,8 +30,8 @@ exports.add = function (req, res, next) {
     const body = _.pick(req.body, "start", "finish", "user", "room_id", "always");
 
 
-    db.reserve.findAll({where: {room_id: body.room_id}}).then((reserves) => {
-        if (!!reserves) {
+    db.reserve.findAll({where: {room_id: body.room_id}}).then(function (reserves) {
+        if (reserves) {
             for (var i = 0; i < reserves.length; i++) {
                 console.log("Iterating");
                 const start  = new Date(reserves[i].start);
@@ -49,13 +49,13 @@ exports.add = function (req, res, next) {
             }
 
             db.reserve.create(body).then(function (room) {
-                if (!!room) {
+                if (room) {
                     res.json(room.toJSON());
                 } else {
                     return error("Could not create the reserve", 400, next);
                 }
-            }, function () {
-                return error("Could not create the reserve", 400, next);
+            }, function (err) {
+                return error("Could not create the reserve: " + err, 400, next);
             });
         }
     });
@@ -64,13 +64,13 @@ exports.add = function (req, res, next) {
 
 exports.find = function(req, res, next) {
     db.reserve.findById(req.params.id).then(function (room) {
-        if (!!room) {
+        if (room) {
             res.json(room.toJSON());
         } else {
             return error("Could not find reserve with ID " + req.params.id, 404, next);
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
 
@@ -78,9 +78,9 @@ exports.update = function (req, res, next) {
     const body = _.pick(req.body, "start", "finish", "user", "always");
 
     db.reserve.find({where: {id: req.params.id}}).then(function (room) {
-        if (!!room) {
-            db.reserve.findAll({where: {room_id: room.room_id}}).then((reserves) => {
-                if (!!reserves) {
+        if (room) {
+            db.reserve.findAll({where: {room_id: room.room_id}}).then(function(reserves) {
+                if (reserves) {
                     console.log(reserves.length);
                     for (var i = 0; i < reserves.length; i++) {
                         const start = new Date(reserves[i].start);
@@ -94,7 +94,7 @@ exports.update = function (req, res, next) {
                                 return error("Another event starts or finishes at the same time", 400, next);
                             }
                             if ((newStart > start && newStart < finish) || (newFinish > start && newFinish < finish)) {
-                                return error("Cannot create a reserve between another", 400, next);
+                                return error("Cannot create a reserve between another ", 400, next);
                             }
                         }
                     }
@@ -106,13 +106,13 @@ exports.update = function (req, res, next) {
                             res.json(body);
                         }
                     }).catch(function (err) {
-                        return error("Could not update reserve with ID " + req.params.id, 404, next);
+                        return error("Could not update reserve with ID: " + req.params.id + ": " + err, 404, next);
                     })
                 }
             });
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
 
@@ -124,6 +124,6 @@ exports.remove = function (req, res, next) {
             return res.status(200).json({delete: "ok"});
         }
     }, function (err) {
-        return error("An error occurred while fetching from the database", 500, next);
+        return error("An error occurred while fetching from the database: " + err, 500, next);
     });
 };
